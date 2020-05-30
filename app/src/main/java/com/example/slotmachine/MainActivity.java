@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity {
 
     Button btLogin;
     EditText etLoginName, etPassword;
