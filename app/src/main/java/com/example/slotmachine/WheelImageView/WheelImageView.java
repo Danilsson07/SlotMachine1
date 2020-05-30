@@ -77,22 +77,22 @@ public class WheelImageView extends FrameLayout {
             public void onAnimationRepeat(Animator animation) {
 
             }
-        })
+        });
     }
 
     private void setImage(ImageView imageView, int value) {
         if(value == Util.BAR){
-            imageView.setImageResource(R.drawable.); // ima
-        }else if(value == Util.LEMON){
-            imageView.setImageResource(R.drawable.); // ima
+            imageView.setImageResource(R.drawable.slot4); // ima
+        }else if(value == Util.BELL){
+            imageView.setImageResource(R.drawable.slot6); // ima
         }else if(value == Util.ORANGE){
-            imageView.setImageResource(R.drawable.); // ima
+            imageView.setImageResource(R.drawable.slot1); // ima
         }else if(value == Util.SEVEN){
-            imageView.setImageResource(R.drawable.); // ima
-        }else if(value == Util.TRIPLE){
-            imageView.setImageResource(R.drawable.); // ima
-        }else (value == Util.WATERMELON){
-            imageView.setImageResource(R.drawable.); // ima
+            imageView.setImageResource(R.drawable.slot3); // ima
+        }else if(value == Util.PLUM){
+            imageView.setImageResource(R.drawable.slot4); // ima
+        }else /*(value == Util.CHERRY)*/{
+            imageView.setImageResource(R.drawable.slot2); // ima
         }
 
         imageView.setTag(value);
