@@ -1,6 +1,8 @@
 package com.example.slotmachine;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -29,25 +31,12 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
     private RelativeLayout layout;
     private Button colorButton;
 
+
     ImageView btn_up, btn_down;
     WheelImageView image, image2,image3;
     TextView txt_score;
 
     int count_done = 0;
-
-    private boolean mIsBound = false;
-    private MusicService mServ;
-    private ServiceConnection Scon =new ServiceConnection(){
-
-        public void onServiceConnected(ComponentName name, IBinder
-                binder) {
-            mServ = ((MusicService.ServiceBinder)binder).getService();
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            mServ = null;
-        }
-    };
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +44,23 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
        setContentView(R.layout.activity_main);
 
        colorButton = findViewById(R.id.colorButton);
-       layout = findViewById(R.id.bg_color);
+       layout = findViewById(R.id.layout);
+
+       colorButton.setOnClickListener(new View.OnClickListener(){
+
+           Drawable backgroud = colorButton.getBackground();
+           @Override
+           public void onClick(View view) {
+                if(colorButton.getText().equals("Dark Mode")){
+                    colorButton.setText("Light Mode");
+                    layout.setBackgroundResource(R.color.newColor);
+                }
+                else if (colorButton.getText().equals("Light Mode")) {
+                    colorButton.setText("Dark Mode");
+                    layout.setBackground(backgroud);
+                }
+           }
+       });
 
        doBindService();
        Intent music = new Intent();
@@ -73,24 +78,8 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
 
        image.setEventEnd(MainActivity.this);
-       image2.setEventEnd(MainActivity.this);
        image3.setEventEnd(MainActivity.this);
-
-       colorButton.setOnClickListener(new View.OnClickListener(){
-       Drawable backgroud = colorButton.getBackground();
-
-           @Override
-           public void onClick(View view) {
-               if(colorButton.getText().equals("Dark Mode")){
-                   colorButton.setText("Light Mode");
-                   layout.setBackgroundResource(R.color.newColor);
-               }
-               else if (colorButton.getText().equals("Light Mode")) {
-                   colorButton.setText("Dark Mode");
-                   layout.setBackground(backgroud);
-               }
-           }
-       });
+       image3.setEventEnd(MainActivity.this);
 
        btn_up.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -99,9 +88,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                    btn_up.setVisibility(View.GONE);
                    btn_down.setVisibility(View.VISIBLE);
 
-                   image.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
-                   image2.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
-                   image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
+                   image.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
+                   image2.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
+                   image3.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
 
                    Common.SCORE -= 50;
                    txt_score.setText(String.valueOf(Common.SCORE));
@@ -138,6 +127,35 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     }
 
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon =new ServiceConnection(){
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService(){
+        bindService(new Intent(this,MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    /*void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }*/
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -145,12 +163,6 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         if (mServ != null) {
             mServ.resumeMusic();
         }
-    }
-
-    private void doBindService() {
-        bindService(new Intent(this,MusicService.class),
-                Scon, Context.BIND_AUTO_CREATE);
-        mIsBound = true;
     }
 
 }
