@@ -27,7 +27,7 @@ import java.util.Random;
 public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     private RelativeLayout layout;
-    private Button colorButton;
+    private Button colorButton,musicBtn;
 
     ImageView btn_up, btn_down;
     WheelImageView image, image2,image3;
@@ -56,11 +56,13 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
+        musicBtn = findViewById(R.id.musicBtn);
 
         doBindService();
-        Intent music = new Intent();
+        final Intent music = new Intent();
         music.setClass(this, MusicService.class);
         startService(music);
+
 
         btn_down = (ImageView)findViewById(R.id.btn_down);
         btn_up = (ImageView)findViewById(R.id.btn_up);
@@ -91,6 +93,22 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 }
             }
         });
+
+        musicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (musicBtn.getText().toString().equals("Music off")){
+                    musicBtn.setText("Music on");
+                    mServ.pauseMusic();
+                } else {
+                    musicBtn.setText("Music off");
+                    mServ.resumeMusic();
+                }
+            }
+        });
+
+
+
 
         btn_up.setOnClickListener(new View.OnClickListener() {
             @Override
