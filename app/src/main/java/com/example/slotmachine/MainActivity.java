@@ -31,6 +31,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     private EditText input;
     private Button ok_button;
+    private Button logout;
 
 
     ImageView btn_up, btn_down;
@@ -63,7 +64,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         input = (EditText) findViewById(R.id.input);
         //ok_button.setOnClickListener(this);
 
-
+        logout = (Button) findViewById(R.id.logout);
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
 
@@ -129,6 +130,17 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                mServ.onDestroy();
+
+            }
+        });
+
     }
     @Override
     public void eventEnd(int result, int count) {
