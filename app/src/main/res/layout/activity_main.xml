@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_sun"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
@@ -20,6 +21,18 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"/>
 
+    <Button
+        android:id="@+id/musicBtn"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/colorButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginTop="89dp"
+        android:layout_marginRight="0dp"
+        android:text="Music off" />
+
     <TextView
         android:id="@+id/txt_score"
         android:text="1000"
@@ -33,21 +46,25 @@
         android:layout_centerInParent="true"
         android:id="@+id/frame_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        >
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity= "center_horizontal|center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/customborder">
+
             <com.example.slotmachine.WheelImageView.WheelImageView
                 android:id="@+id/image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <com.example.slotmachine.WheelImageView.WheelImageView
                 android:id="@+id/image2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <com.example.slotmachine.WheelImageView.WheelImageView
                 android:id="@+id/image3"
                 android:layout_width="wrap_content"
@@ -64,25 +81,28 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="143dp"
-        android:layout_marginLeft="143dp"
-        android:layout_marginTop="458dp"
+        android:layout_marginStart="301dp"
+        android:layout_marginLeft="301dp"
+        android:layout_marginTop="275dp"
         android:background="@drawable/bg_btn_up"
-        android:src="@drawable/up"
+        android:src="@drawable/btn"
         android:text="Push" />
 
     <ImageView
         android:id="@+id/btn_down"
-        android:layout_width="126dp"
-        android:layout_height="127dp"
+        android:layout_width="125dp"
+        android:layout_height="154dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="143dp"
-        android:layout_marginLeft="143dp"
-        android:layout_marginTop="469dp"
+        android:layout_marginStart="301dp"
+        android:layout_marginLeft="301dp"
+        android:layout_marginTop="275dp"
+        android:background="@drawable/bg_btn_up"
         android:src="@drawable/down"
         android:visibility="gone"/>
+
+
 
 </RelativeLayout>
