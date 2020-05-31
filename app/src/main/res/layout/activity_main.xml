@@ -3,49 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/bg_color"
+
     tools:context=".MainActivity">
 
+    <Button
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dark Mode"
+        android:id="@+id/colorButton"
+        android:textAllCaps="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
 
-    <LinearLayout
-        android:id="@+id/imgs"
-        android:layout_width="409dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="314dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginBottom="253dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/txt_score"
+        android:text="1000"
+        android:padding="20dp"
+        android:background="@drawable/bg_text"
+        android:textColor="@android:color/background_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <ImageView
-            android:id="@+id/img1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/slot5"/>
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:id="@+id/frame_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/img2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/slot5"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity= "center_horizontal|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.example.slotmachine.WheelImageView.WheelImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.example.slotmachine.WheelImageView.WheelImageView
+                android:id="@+id/image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.example.slotmachine.WheelImageView.WheelImageView
+                android:id="@+id/image3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/slot5"/>
-    </LinearLayout>
-   
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/btn_up"
+        android:layout_width="125dp"
+        android:layout_height="154dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="458dp"
+        android:background="@drawable/bg_btn_up"
+        android:src="@drawable/up"
+        android:text="Push" />
+
+    <ImageView
+        android:id="@+id/btn_down"
+        android:layout_width="126dp"
+        android:layout_height="127dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="469dp"
+        android:src="@drawable/down"
+        android:visibility="gone"/>
 
 </RelativeLayout>

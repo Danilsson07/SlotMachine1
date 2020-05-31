@@ -30,7 +30,7 @@ public class WheelImageView extends FrameLayout {
         init (context);
     }
 
-    public WheelImageView(@NonNull Context context, AttributeSet attrs) {
+    public WheelImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init (context);
     }
@@ -49,23 +49,24 @@ public class WheelImageView extends FrameLayout {
         next_image.animate().translationY(0).setDuration(ANIMATION_DURATION).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                setImage(current_image,old_value %6);
-                current_image.setTranslationY(0);
-                if (old_value != rotate_count){
-                    // if old_value still not equal than rotate count, we ll still roll
-                    setValueRandom(image, rotate_count );
-                    old_value++;
-                }else { //if rotate is reACHED
-                    last_result = 0;
-                    old_value = 0;
-                    setImage(next_image,image);
-                    eventEnd.eventEnd(image%6, rotate_count);
-                }
+
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-
+                setImage(current_image,old_value%5);
+                current_image.setTranslationY(0);
+                if (old_value != rotate_count){
+                    setValueRandom(image, rotate_count);
+                    old_value++;
+                }else{
+                    last_result = 0;
+                    old_value = 0;
+                    setImage(next_image,image);
+                    System.out.println("ima"+image);
+                    System.out.println("ro"+rotate_count);
+                    eventEnd.eventEnd(image%6, rotate_count);
+                }
             }
 
             @Override
@@ -91,7 +92,7 @@ public class WheelImageView extends FrameLayout {
             imageView.setImageResource(R.drawable.slot3); // ima
         }else if(value == Util.PLUM){
             imageView.setImageResource(R.drawable.slot4); // ima
-        }else /*(value == Util.CHERRY)*/{
+        }else if (value == Util.CHERRY){
             imageView.setImageResource(R.drawable.slot2); // ima
         }
 
