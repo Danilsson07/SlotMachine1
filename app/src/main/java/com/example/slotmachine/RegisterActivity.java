@@ -41,8 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (password.getText().toString().equals(repeatPassword.getText().toString())&& username.length()!=0){
-                    String newUsername;
-                    addUser(username.getText().toString(), password.getText().toString());
+                    if(slotmachineDB.getPassword(username.getText().toString())== null) {
+                        String newUsername;
+                        addUser(username.getText().toString(), password.getText().toString());
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_LONG).show();
+                    }
                 } else{
                     Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_LONG).show();
                 }
