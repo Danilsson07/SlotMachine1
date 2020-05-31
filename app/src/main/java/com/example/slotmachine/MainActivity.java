@@ -1,11 +1,19 @@
 package com.example.slotmachine;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,16 +26,41 @@ import java.util.Random;
 
 public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
+    private RelativeLayout layout;
+    private Button colorButton;
+
     ImageView btn_up, btn_down;
     WheelImageView image, image2,image3;
     TextView txt_score;
 
     int count_done = 0;
 
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon =new ServiceConnection(){
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_main);
+
+       colorButton = findViewById(R.id.colorButton);
+       layout = findViewById(R.id.bg_color);
+
+       doBindService();
+       Intent music = new Intent();
+       music.setClass(this, MusicService.class);
+       startService(music);
 
        btn_down = (ImageView)findViewById(R.id.btn_down);
        btn_up = (ImageView)findViewById(R.id.btn_up);
@@ -42,6 +75,22 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
        image.setEventEnd(MainActivity.this);
        image2.setEventEnd(MainActivity.this);
        image3.setEventEnd(MainActivity.this);
+
+       colorButton.setOnClickListener(new View.OnClickListener(){
+       Drawable backgroud = colorButton.getBackground();
+
+           @Override
+           public void onClick(View view) {
+               if(colorButton.getText().equals("Dark Mode")){
+                   colorButton.setText("Light Mode");
+                   layout.setBackgroundResource(R.color.newColor);
+               }
+               else if (colorButton.getText().equals("Light Mode")) {
+                   colorButton.setText("Dark Mode");
+                   layout.setBackground(backgroud);
+               }
+           }
+       });
 
        btn_up.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -88,4 +137,20 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    private void doBindService() {
+        bindService(new Intent(this,MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
 }
