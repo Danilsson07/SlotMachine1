@@ -2,6 +2,9 @@ package com.example.slotmachine;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Intent;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +38,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     int count_done = 0;
 
+
     private boolean mIsBound = false;
     private MusicService mServ;
     private ServiceConnection Scon =new ServiceConnection(){
@@ -49,11 +53,20 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         }
     };
 
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_main);
 
+   }
+
+
+
+   /*
+        btLogin= (Button)findViewById(R.id.button1);
+        etLoginName = (EditText)findViewById(R.id.editText1);
+        etPassword = (EditText)findViewById(R.id.editText2);
        colorButton = findViewById(R.id.colorButton);
        layout = findViewById(R.id.bg_color);
 
