@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void validate(String username, String password) {
         if (slotmachineDB.getPassword(username)!=null && password.equals(slotmachineDB.getPassword(username))) {
+            Common.playingUser = username;
+            Common.SCORE = slotmachineDB.getCoins(username);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         } else{

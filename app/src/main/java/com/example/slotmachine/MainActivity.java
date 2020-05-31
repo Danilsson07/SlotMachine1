@@ -122,6 +122,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                     image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
 
                     Common.SCORE -= 50;
+                    
                     txt_score.setText(String.valueOf(Common.SCORE));
                 } else {
                     Toast.makeText(MainActivity.this, "Not enough Money", Toast.LENGTH_SHORT).show();
