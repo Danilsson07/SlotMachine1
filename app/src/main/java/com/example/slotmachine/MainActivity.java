@@ -40,7 +40,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
 
        image.setEventEnd(MainActivity.this);
-       image3.setEventEnd(MainActivity.this);
+       image2.setEventEnd(MainActivity.this);
        image3.setEventEnd(MainActivity.this);
 
        btn_up.setOnClickListener(new View.OnClickListener() {
@@ -50,9 +50,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                    btn_up.setVisibility(View.GONE);
                    btn_down.setVisibility(View.VISIBLE);
 
-                   image.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
-                   image2.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
-                   image3.setValueRandom(new Random().nextInt(6), new Random().nextInt(15 - 5) + 1);
+                   image.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
+                   image2.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
+                   image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
 
                    Common.SCORE -= 50;
                    txt_score.setText(String.valueOf(Common.SCORE));
