@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button loginButton;
+    private Button loginButton, registerButton;
     private EditText usernameBox, passwordBox;
 
 
@@ -22,11 +22,20 @@ public class LoginActivity extends AppCompatActivity {
         usernameBox = findViewById(R.id.userNameBox);
         passwordBox = findViewById(R.id.passwordBox);
         loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validate(usernameBox.getText().toString(), passwordBox.getText().toString());
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
