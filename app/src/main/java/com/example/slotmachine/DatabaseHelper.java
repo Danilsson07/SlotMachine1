@@ -2,6 +2,7 @@ package com.example.slotmachine;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -38,6 +39,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else{
             return true;
         }
+    }
+
+    public String getPassword(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT "+ COL3 +" FROM "+TABLE_NAME +" WHERE "+COL2+ " = \'"+ username+"\'";
+        Cursor data = db.rawQuery(query,null);
+        if(data.getCount()>0) {
+            if(data.moveToFirst()) {
+                return data.getString(0);
+            } else return null;
+        }else return null;
     }
 
 
