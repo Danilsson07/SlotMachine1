@@ -21,6 +21,18 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"/>
 
+    <Button
+        android:id="@+id/musicBtn"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/colorButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginTop="89dp"
+        android:layout_marginRight="0dp"
+        android:text="Music off" />
+
     <TextView
         android:id="@+id/txt_score"
         android:text="1000"
