@@ -30,6 +30,7 @@
         android:layout_marginTop="600dp"
         android:padding="20dp"
         android:hint="Desired Amount"
+        android:text="100"
         android:background="@drawable/bg_text2"
         android:inputType = "number"/>
 

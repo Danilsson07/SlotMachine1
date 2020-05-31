@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -124,10 +126,10 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  int amount = Integer.parseInt(input.getText().toString());
-                    Common.SCORE += amount;
-                    txt_score.setText(String.valueOf(Common.SCORE));
-
+                if(input.getText().toString().length() != 0) {
+                    Common.SCORE += Integer.parseInt(input.getText().toString());
+                }
+                txt_score.setText(String.valueOf(Common.SCORE));
             }
         });
 
@@ -152,9 +154,12 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
             count_done= 0; // reset
 
+            //Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.mixed_anim);
+
             if (image.getValue()== image2.getValue() && image2.getValue() == image3.getValue()){
                 Toast.makeText(this, "You win big prize", Toast.LENGTH_SHORT).show();
                 Common.SCORE += 300;
+
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
                 Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show();

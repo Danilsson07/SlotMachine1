@@ -9,12 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/actions" />
+
+        <activity android:name=".RegisterActivity" />
+
         <service
             android:name=".MusicService"
             android:enabled="true" />
-        <activity android:name=".LoginActivity" >
 
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +32,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>
