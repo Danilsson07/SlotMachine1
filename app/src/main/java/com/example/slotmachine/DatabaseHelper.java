@@ -64,6 +64,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } else return 0;
         }else return 0;
     }
+    public void updateCoins(int newValue,String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE "+ TABLE_NAME +" SET "+COL4 +" = "+newValue+" WHERE "+COL2+ " = \'"+ username+"\'";
+        db.execSQL(query);
+    }
 
 
 
