@@ -56,10 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /*
     private void logout(){
         Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
         startActivity(intent);
-    }
+    }*/
 
 
 }
