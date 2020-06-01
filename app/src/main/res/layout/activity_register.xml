@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:background="@drawable/background_sun">
 
     <EditText
         android:id="@+id/registerUsername"
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Username"
+        android:textColorHint="#000000"
+        app:backgroundTint="#000000"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +24,10 @@
 
     <Button
         android:id="@+id/submitRegistrationBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="47dp"
+        android:background="@drawable/btn_layout"
+        android:textColor="#FFC107"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,9 +38,11 @@
 
     <Button
         android:id="@+id/goBackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Go Back"
+        android:layout_width="210dp"
+        android:layout_height="47dp"
+        android:background="@drawable/btn_layout"
+        android:textColor="#FFC107"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -49,6 +56,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Password"
+        android:textColorHint="#000000"
+        app:backgroundTint="#000000"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColorHint="#000000"
+        app:backgroundTint="#000000"
         android:hint="Repeat Password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,4 +79,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerPassword"
         app:layout_constraintVertical_bias="0.043" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

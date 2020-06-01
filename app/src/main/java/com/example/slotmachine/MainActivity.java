@@ -14,19 +14,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.slotmachine.WheelImageView.IEventEnd;
 import com.example.slotmachine.WheelImageView.WheelImageView;
-
-import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -37,23 +31,22 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
     private RelativeLayout layout;
     private Button colorButton,musicBtn;
 
-    private EditText input;
-    private Button ok_button;
+    private Button depositBtn;
     private Button logout;
 
     private long backPressedTime;
     private Toast backToast;
 
-    ImageView btn_up, btn_down;
+    ImageView btn_up, btn_down, plusBtn, minusBtn;
     WheelImageView image, image2,image3;
-    TextView txt_score;
+    TextView txt_score, input;
     DatabaseHelper slotmachineDB;
     int count_done = 0;
 
     Animation animation;
 
     MediaPlayer coin;
-   MediaPlayer small;
+    MediaPlayer small;
     MediaPlayer big;
 
     private boolean mIsBound = false;
@@ -76,13 +69,16 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         coin = MediaPlayer.create(this, R.raw.coin);
         small = MediaPlayer.create(this, R.raw.small);
         big = MediaPlayer.create(this, R.raw.big);
 
-        ok_button = (Button) findViewById(R.id.okButton);
+        depositBtn = (Button) findViewById(R.id.depositBtn);
+
         txt_score = (TextView) findViewById(R.id.txt_score);
-        input = (EditText) findViewById(R.id.input);
+        input =  findViewById(R.id.input);
+        input.setText(R.string._50);
         //ok_button.setOnClickListener(this);
 
         logout = (Button) findViewById(R.id.logout);
@@ -92,6 +88,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
         musicBtn = findViewById(R.id.musicBtn);
+        if(mServ!=null && musicBtn.getText().toString().equals("Music off")){
+            mServ.resumeMusic();
+        }
 
         doBindService();
         final Intent music = new Intent();
@@ -103,6 +102,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
         btn_down = (ImageView)findViewById(R.id.btn_down);
         btn_up = (ImageView)findViewById(R.id.btn_up);
+
+        plusBtn = findViewById(R.id.plusBtn);
+        minusBtn = findViewById(R.id.minusBtn);
 
 
         image = (WheelImageView) findViewById(R.id.image);
@@ -124,11 +126,12 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             @Override
             public void onClick(View view) {
                 if (colorButton.getText().equals("Dark Mode")) {
+                    layout.setBackgroundResource(R.drawable.background);
                     colorButton.setText("Light Mode");
-                    layout.setBackgroundResource(R.color.newColor);
+
                 } else if (colorButton.getText().equals("Light Mode")) {
                     colorButton.setText("Dark Mode");
-                    layout.setBackgroundResource(R.color.backgroud);
+                    layout.setBackgroundResource(R.drawable.background_sun);
                 }
             }
         });
@@ -146,13 +149,30 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             }
         });
 
+        plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.setText(Integer.toString(Integer.parseInt(input.getText().toString())+50));
+            }
+        });
+        minusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Integer.parseInt(input.getText().toString())>50){
+                    input.setText(Integer.toString(Integer.parseInt(input.getText().toString())-50));
+                } else{
+                    Toast.makeText(MainActivity.this, "Minimum bet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
 
         btn_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Common.SCORE >= 50) {
+                if (Common.SCORE >= Integer.parseInt(input.getText().toString())) {
                     btn_up.setVisibility(View.GONE);
                     btn_down.setVisibility(View.VISIBLE);
 
@@ -160,7 +180,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                     image2.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
                     image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
 
-                    Common.SCORE -= 50;
+                    Common.SCORE -= Integer.parseInt(input.getText().toString());
                     slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                     txt_score.setText(String.valueOf(Common.SCORE));
                 } else {
@@ -169,31 +189,25 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             }
         });
 
-        ok_button.setOnClickListener(new View.OnClickListener() {
+        depositBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(input.getText().toString().length() != 0) {
-                    int amount = Integer.parseInt(input.getText().toString());
-                    if(amount <= 1000) {
-                    Common.SCORE += amount;
 
-                        coin.start();
-                } else {
-                        Toast.makeText(MainActivity.this, "Amount is to big", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                txt_score.setText(String.valueOf(Common.SCORE));
+                Intent intent = new Intent(MainActivity.this, DepositActivity.class);
+                startActivity(intent);
+
             }
         });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                mServ.stopMusic();
-                finish();
+
+
+                MainActivity.this.finish();
+                mServ.pauseMusic();
+
+
             }
         });
 
@@ -211,8 +225,34 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             //Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.mixed_anim);
 
             if (image.getValue()== image2.getValue() && image2.getValue() == image3.getValue()){
-                Toast.makeText(this, "You win big prize", Toast.LENGTH_SHORT).show();
-                Common.SCORE += 300;
+               
+                if (image.getValue()==1){
+                    Toast.makeText(this, "JACKPOT!!!! You won "+ (Integer.parseInt(input.getText().toString())*777)+ " Coins", Toast.LENGTH_SHORT).show();
+                    Common.SCORE += Integer.parseInt(input.getText().toString())*777;
+                } else {
+                    int winAmount = 0;
+                    switch (image.getValue()) {
+                        case 0:
+                            winAmount = Integer.parseInt(input.getText().toString())*20;
+                            break;
+                        case 2:
+                            winAmount = Integer.parseInt(input.getText().toString())*40;
+                            break;
+                        case 3:
+                            winAmount = Integer.parseInt(input.getText().toString())*60;
+                            break;
+                        case 4:
+                            winAmount = Integer.parseInt(input.getText().toString())*80;
+                            break;
+                        case 5:
+                            winAmount = Integer.parseInt(input.getText().toString())*100;
+                            break;
+                    }
+                    Toast.makeText(this, "Congratulations! You won "+ winAmount+ " Coins", Toast.LENGTH_SHORT).show();
+                    Common.SCORE += winAmount;
+                }
+
+
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
 
                 animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bounce);
@@ -226,8 +266,34 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 small.start();
 
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
-                Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show();
-                Common.SCORE += 300;
+                int winAmount = 0;
+                int imageValue = 0;
+                if (image.getValue() == image2.getValue() ||image.getValue() == image3.getValue()){
+                    imageValue = image.getValue();
+                }else imageValue = image2.getValue();
+
+                switch (imageValue){
+                    case 0:
+                        winAmount = Integer.parseInt(input.getText().toString())*2;
+                        break;
+                    case 1:
+                        winAmount = Integer.parseInt(input.getText().toString())*10;
+                        break;
+                    case 2:
+                        winAmount = Integer.parseInt(input.getText().toString())*3;
+                        break;
+                    case 3:
+                        winAmount = Integer.parseInt(input.getText().toString())*5;
+                        break;
+                    case 4:
+                        winAmount = Integer.parseInt(input.getText().toString())*7;
+                        break;
+                    case 5:
+                        winAmount = Integer.parseInt(input.getText().toString())*8;
+                        break;
+                }
+                        Toast.makeText(this, "You won "+ winAmount+ " Coins", Toast.LENGTH_SHORT).show();
+                Common.SCORE += winAmount;
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                 txt_score.setText(String.valueOf(Common.SCORE));
                 animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.rotate);
@@ -286,5 +352,6 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 Scon, Context.BIND_AUTO_CREATE);
         mIsBound = true;
     }
+
 
 }
