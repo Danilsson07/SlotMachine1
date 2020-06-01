@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +31,11 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     private RelativeLayout layout;
     private Button colorButton,musicBtn;
+
+    private EditText input;
+    private Button ok_button;
+    private Button logout;
+
 
     ImageView btn_up, btn_down;
     WheelImageView image, image2,image3;
@@ -55,6 +62,13 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ok_button = (Button) findViewById(R.id.okButton);
+        txt_score = (TextView) findViewById(R.id.txt_score);
+        input = (EditText) findViewById(R.id.input);
+        //ok_button.setOnClickListener(this);
+
+        logout = (Button) findViewById(R.id.logout);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         colorButton = findViewById(R.id.colorButton);
@@ -66,14 +80,17 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         music.setClass(this, MusicService.class);
         startService(music);
 
+
         slotmachineDB = new DatabaseHelper(this);
 
         btn_down = (ImageView)findViewById(R.id.btn_down);
         btn_up = (ImageView)findViewById(R.id.btn_up);
 
+
         image = (WheelImageView) findViewById(R.id.image);
         image2 = (WheelImageView) findViewById(R.id.image2);
         image3 = (WheelImageView) findViewById(R.id.image3);
+
 
         txt_score = (TextView ) findViewById(R.id.txt_score);
         txt_score.setText(String.valueOf(Common.SCORE));
@@ -83,18 +100,17 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         image2.setEventEnd(MainActivity.this);
         image3.setEventEnd(MainActivity.this);
 
-        colorButton.setOnClickListener(new View.OnClickListener(){
+        colorButton.setOnClickListener(new View.OnClickListener() {
             Drawable backgroud = colorButton.getBackground();
 
             @Override
             public void onClick(View view) {
-                if(colorButton.getText().equals("Dark Mode")){
+                if (colorButton.getText().equals("Dark Mode")) {
                     colorButton.setText("Light Mode");
                     layout.setBackgroundResource(R.color.newColor);
-                }
-                else if (colorButton.getText().equals("Light Mode")) {
+                } else if (colorButton.getText().equals("Light Mode")) {
                     colorButton.setText("Dark Mode");
-                    layout.setBackground(backgroud);
+                    layout.setBackgroundResource(R.color.backgroud);
                 }
             }
         });
@@ -122,9 +138,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                     btn_up.setVisibility(View.GONE);
                     btn_down.setVisibility(View.VISIBLE);
 
-                    image.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
-                    image2.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
-                    image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1)+5);
+                    image.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
+                    image2.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
+                    image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
 
                     Common.SCORE -= 50;
                     slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
@@ -134,8 +150,28 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 }
             }
         });
-    }
 
+        ok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.getText().toString().length() != 0) {
+                    Common.SCORE += Integer.parseInt(input.getText().toString());
+                }
+                txt_score.setText(String.valueOf(Common.SCORE));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                mServ.onDestroy();
+
+            }
+        });
+
+    }
     @Override
     public void eventEnd(int result, int count) {
         if(count_done < 2){
@@ -146,10 +182,14 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
             count_done= 0; // reset
 
+            //Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.mixed_anim);
+
             if (image.getValue()== image2.getValue() && image2.getValue() == image3.getValue()){
                 Toast.makeText(this, "You win big prize", Toast.LENGTH_SHORT).show();
                 Common.SCORE += 300;
+
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
+
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
                 Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show();
