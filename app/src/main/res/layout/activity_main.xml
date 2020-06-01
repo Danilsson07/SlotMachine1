@@ -11,85 +11,84 @@
 
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/depositBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="110dp"
-        android:layout_marginTop="327dp"
-        android:layout_marginRight="81dp"
-        android:padding="20dp"
-        android:text="Deposit"
-        android:textAllCaps="false" />
+    <ImageView
+        android:id="@+id/btn_up"
+        android:layout_width="185dp"
+        android:layout_height="30000dp"
+        android:layout_marginStart="278dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="260dp"
 
-    <TextView
-        android:id="@+id/input"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="83dp"
-        android:layout_marginLeft="83dp"
-        android:layout_marginTop="318dp"
-        android:background="@drawable/bg_text2"
-        android:gravity="center_horizontal"
-        android:padding="20dp"
-        android:text="@string/_50"
-        android:textAlignment="center"
-        android:textSize="24sp" />
+        android:layout_marginBottom="47dp"
+        android:background="@drawable/bg_btn_up"
+        android:src="@drawable/up"
+        android:text="Push" />
 
-    <Button
-        android:padding="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dark Mode"
-        android:id="@+id/colorButton"
-        android:textAllCaps="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/btn_down"
+        android:layout_width="185dp"
+        android:layout_height="30000dp"
+        android:layout_marginStart="278dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="260dp"
 
-    <Button
-        android:id="@+id/musicBtn"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/colorButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-
-        android:layout_marginTop="89dp"
-        android:layout_marginRight="0dp"
-        android:text="Music off" />
-
-    <TextView
-        android:id="@+id/txt_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_text"
-        android:padding="20dp"
-        android:text="1000"
-        android:textColor="@android:color/background_dark"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
-
-    <Button
-        android:padding="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/logout"
-        android:textAllCaps="false"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="120dp"/>
+        android:layout_marginBottom="47dp"
+        android:background="@drawable/bg_btn_up"
+        android:src="@drawable/up"
+        android:text="Push" />
 
 
-   <FrameLayout
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_layout"
+            android:textColor="#FFC107"
+            android:layout_weight="1"
+            android:text="Logout"
+            android:textAllCaps="false" />
+        <Button
+            android:id="@+id/musicBtn"
+            android:background="@drawable/btn_layout"
+            android:textColor="#FFC107"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/colorButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:text="Music off"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_layout"
+            android:text="Dark Mode"
+            android:textColor="#FFC107"
+            android:id="@+id/colorButton"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"/>
+
+
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_centerInParent="true"
         android:id="@+id/frame_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity= "center_horizontal|center_vertical"
@@ -115,60 +114,69 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/btn_up"
-        android:layout_width="125dp"
-        android:layout_height="154dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="301dp"
-        android:layout_marginLeft="301dp"
-        android:layout_marginTop="275dp"
-        android:background="@drawable/bg_btn_up"
-        android:src="@drawable/up"
-        android:text="Push" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="bottom">
 
-    <ImageView
-        android:id="@+id/btn_down"
-        android:layout_width="125dp"
-        android:layout_height="154dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="301dp"
-        android:layout_marginLeft="301dp"
-        android:layout_marginTop="275dp"
-        android:background="@drawable/bg_btn_up"
-        android:src="@drawable/up"
-        android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/plusBtn"
+                android:layout_width="53dp"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/input"
+                android:layout_toRightOf="@+id/input"
+                android:src="@drawable/plus" />
 
+            <TextView
+                android:id="@+id/input"
+                android:layout_height="wrap_content"
+                android:layout_width="139dp"
+                android:background="@drawable/tv_layout"
+                android:textColor="#FFC107"
+                android:gravity="center_horizontal"
+                android:text="@string/_50"
+                android:textAlignment="center"
+                android:padding="15dp"/>
+        <ImageView
+            android:id="@+id/minusBtn"
+            android:layout_width="57dp"
+            android:layout_height="49dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/input"
+            android:layout_toRightOf="@+id/input"
+            android:src="@drawable/minus" />
 
-    <ImageView
-        android:id="@+id/plusBtn"
-        android:layout_width="73dp"
-        android:layout_height="59dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="328dp"
-        android:layout_toEndOf="@+id/input"
-        android:layout_toRightOf="@+id/input"
-        android:src="@drawable/plus" />
+            <Button
+                android:id="@+id/depositBtn"
+                android:layout_weight="1"
+                android:background="@drawable/btn_layout"
+                android:textColor="#FFC107"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:text="Deposit"
+                android:textAllCaps="false" />
 
-    <ImageView
-        android:id="@+id/minusBtn"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-178dp"
-        android:layout_marginLeft="-178dp"
-        android:layout_marginTop="334dp"
-        android:layout_toEndOf="@+id/input"
-        android:layout_toRightOf="@+id/input"
-        android:src="@drawable/minus" />
+        <TextView
+            android:id="@+id/txt_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/tv_layout"
+            android:textColor="#FFC107"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:text="1000"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
 
 
 </RelativeLayout>
