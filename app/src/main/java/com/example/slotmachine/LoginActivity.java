@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton, registerButton;
@@ -19,6 +21,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
 
         usernameBox = findViewById(R.id.userNameBox);
         passwordBox = findViewById(R.id.passwordBox);

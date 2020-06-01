@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.slotmachine.WheelImageView.IEventEnd;
 import com.example.slotmachine.WheelImageView.WheelImageView;
 
@@ -55,6 +54,8 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         depositBtn = (Button) findViewById(R.id.depositBtn);
         txt_score = (TextView) findViewById(R.id.txt_score);
@@ -104,11 +105,12 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             @Override
             public void onClick(View view) {
                 if (colorButton.getText().equals("Dark Mode")) {
+                    layout.setBackgroundResource(R.drawable.background);
                     colorButton.setText("Light Mode");
-                    layout.setBackgroundResource(R.color.newColor);
+
                 } else if (colorButton.getText().equals("Light Mode")) {
                     colorButton.setText("Dark Mode");
-                    layout.setBackgroundResource(R.color.backgroud);
+                    layout.setBackgroundResource(R.drawable.background_sun);
                 }
             }
         });
