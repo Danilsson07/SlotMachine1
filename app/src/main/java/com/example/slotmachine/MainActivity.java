@@ -69,6 +69,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
         musicBtn = findViewById(R.id.musicBtn);
+        if(mServ!=null && musicBtn.getText().toString().equals("Music off")){
+            mServ.resumeMusic();
+        }
 
         doBindService();
         final Intent music = new Intent();
@@ -177,9 +180,8 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                mServ.onDestroy();
+                MainActivity.this.finish();
+                mServ.pauseMusic();
 
             }
         });
