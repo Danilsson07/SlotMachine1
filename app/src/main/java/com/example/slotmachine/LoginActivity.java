@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton, registerButton;
     private EditText usernameBox, passwordBox;
-
+    DatabaseHelper slotmachineDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordBox = findViewById(R.id.passwordBox);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
+
+        slotmachineDB = new DatabaseHelper(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +45,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate(String username, String password) {
-        if (username.equals("admin") && password.equals("password")) {
+        if (slotmachineDB.getPassword(username)!=null && password.equals(slotmachineDB.getPassword(username))) {
+            Common.playingUser = username;
+            Common.SCORE = slotmachineDB.getCoins(username);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+        } else{
+            Toast.makeText(LoginActivity.this, "Wrong credentials!", Toast.LENGTH_LONG).show();
+
         }
     }
 

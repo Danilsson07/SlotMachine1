@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -29,7 +30,7 @@ import java.util.Random;
 public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     private RelativeLayout layout;
-    private Button colorButton;
+    private Button colorButton,musicBtn;
 
     private EditText input;
     private Button ok_button;
@@ -39,7 +40,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
     ImageView btn_up, btn_down;
     WheelImageView image, image2,image3;
     TextView txt_score;
-
+    DatabaseHelper slotmachineDB;
     int count_done = 0;
 
     private boolean mIsBound = false;
@@ -67,22 +68,32 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         //ok_button.setOnClickListener(this);
 
         logout = (Button) findViewById(R.id.logout);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
+        musicBtn = findViewById(R.id.musicBtn);
 
         doBindService();
-        Intent music = new Intent();
+        final Intent music = new Intent();
         music.setClass(this, MusicService.class);
         startService(music);
 
-        btn_down = (ImageView) findViewById(R.id.btn_down);
-        btn_up = (ImageView) findViewById(R.id.btn_up);
+
+        slotmachineDB = new DatabaseHelper(this);
+
+        btn_down = (ImageView)findViewById(R.id.btn_down);
+        btn_up = (ImageView)findViewById(R.id.btn_up);
+
 
         image = (WheelImageView) findViewById(R.id.image);
         image2 = (WheelImageView) findViewById(R.id.image2);
         image3 = (WheelImageView) findViewById(R.id.image3);
 
-        txt_score = (TextView) findViewById(R.id.txt_score);
+
+        txt_score = (TextView ) findViewById(R.id.txt_score);
+        txt_score.setText(String.valueOf(Common.SCORE));
 
 
         image.setEventEnd(MainActivity.this);
@@ -104,6 +115,22 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             }
         });
 
+        musicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (musicBtn.getText().toString().equals("Music off")){
+                    musicBtn.setText("Music on");
+                    mServ.pauseMusic();
+                } else {
+                    musicBtn.setText("Music off");
+                    mServ.resumeMusic();
+                }
+            }
+        });
+
+
+
+
         btn_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +143,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                     image3.setValueRandom(new Random().nextInt(6), new Random().nextInt((15 - 5) + 1) + 5);
 
                     Common.SCORE -= 50;
+                    slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                     txt_score.setText(String.valueOf(Common.SCORE));
                 } else {
                     Toast.makeText(MainActivity.this, "Not enough Money", Toast.LENGTH_SHORT).show();
@@ -160,10 +188,13 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 Toast.makeText(this, "You win big prize", Toast.LENGTH_SHORT).show();
                 Common.SCORE += 300;
 
+                slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
+
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
                 Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show();
                 Common.SCORE += 300;
+                slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else{
                 Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show();
