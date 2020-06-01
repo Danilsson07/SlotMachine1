@@ -70,6 +70,9 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
         musicBtn = findViewById(R.id.musicBtn);
+        if(mServ!=null && musicBtn.getText().toString().equals("Music off")){
+            mServ.resumeMusic();
+        }
 
         doBindService();
         final Intent music = new Intent();
@@ -179,9 +182,8 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                mServ.onDestroy();
+                MainActivity.this.finish();
+                mServ.pauseMusic();
 
             }
         });
@@ -200,15 +202,64 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             //Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.mixed_anim);
 
             if (image.getValue()== image2.getValue() && image2.getValue() == image3.getValue()){
-                Toast.makeText(this, "You win big prize", Toast.LENGTH_SHORT).show();
-                Common.SCORE += 300;
+                if (image.getValue()==1){
+                    Toast.makeText(this, "JACKPOT!!!! You won "+ (Integer.parseInt(input.getText().toString())*777)+ " Coins", Toast.LENGTH_SHORT).show();
+                    Common.SCORE += Integer.parseInt(input.getText().toString())*777;
+                } else {
+                    int winAmount = 0;
+                    switch (image.getValue()) {
+                        case 0:
+                            winAmount = Integer.parseInt(input.getText().toString())*20;
+                            break;
+                        case 2:
+                            winAmount = Integer.parseInt(input.getText().toString())*40;
+                            break;
+                        case 3:
+                            winAmount = Integer.parseInt(input.getText().toString())*60;
+                            break;
+                        case 4:
+                            winAmount = Integer.parseInt(input.getText().toString())*80;
+                            break;
+                        case 5:
+                            winAmount = Integer.parseInt(input.getText().toString())*100;
+                            break;
+                    }
+                    Toast.makeText(this, "Congratulations! You won "+ winAmount+ " Coins", Toast.LENGTH_SHORT).show();
+                    Common.SCORE += winAmount;
+                }
 
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
 
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
-                Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show();
-                Common.SCORE += 300;
+                int winAmount = 0;
+                int imageValue = 0;
+                if (image.getValue() == image2.getValue() ||image.getValue() == image3.getValue()){
+                    imageValue = image.getValue();
+                }else imageValue = image2.getValue();
+
+                switch (imageValue){
+                    case 0:
+                        winAmount = Integer.parseInt(input.getText().toString())*2;
+                        break;
+                    case 1:
+                        winAmount = Integer.parseInt(input.getText().toString())*10;
+                        break;
+                    case 2:
+                        winAmount = Integer.parseInt(input.getText().toString())*3;
+                        break;
+                    case 3:
+                        winAmount = Integer.parseInt(input.getText().toString())*5;
+                        break;
+                    case 4:
+                        winAmount = Integer.parseInt(input.getText().toString())*7;
+                        break;
+                    case 5:
+                        winAmount = Integer.parseInt(input.getText().toString())*8;
+                        break;
+                }
+                        Toast.makeText(this, "You won "+ winAmount+ " Coins", Toast.LENGTH_SHORT).show();
+                Common.SCORE += winAmount;
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                 txt_score.setText(String.valueOf(Common.SCORE));
             }else{
