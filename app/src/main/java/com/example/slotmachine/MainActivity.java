@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
@@ -23,12 +26,16 @@ import java.util.Random;
 
 public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
+
+
     private RelativeLayout layout;
     private Button colorButton,musicBtn;
 
     private Button depositBtn;
     private Button logout;
 
+    private long backPressedTime;
+    private Toast backToast;
 
     ImageView btn_up, btn_down, plusBtn, minusBtn;
     WheelImageView image, image2,image3;
@@ -36,8 +43,15 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
     DatabaseHelper slotmachineDB;
     int count_done = 0;
 
+    Animation animation;
+
+    MediaPlayer coin;
+    MediaPlayer small;
+    MediaPlayer big;
+
     private boolean mIsBound = false;
     private MusicService mServ;
+
     private ServiceConnection Scon =new ServiceConnection(){
 
         public void onServiceConnected(ComponentName name, IBinder
@@ -52,12 +66,16 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+        coin = MediaPlayer.create(this, R.raw.coin);
+        small = MediaPlayer.create(this, R.raw.small);
+        big = MediaPlayer.create(this, R.raw.big);
 
         depositBtn = (Button) findViewById(R.id.depositBtn);
+
         txt_score = (TextView) findViewById(R.id.txt_score);
         input =  findViewById(R.id.input);
         input.setText(R.string._50);
@@ -174,16 +192,21 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         depositBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MainActivity.this, DepositActivity.class);
                 startActivity(intent);
+
             }
         });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 MainActivity.this.finish();
                 mServ.pauseMusic();
+
 
             }
         });
@@ -202,6 +225,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
             //Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.mixed_anim);
 
             if (image.getValue()== image2.getValue() && image2.getValue() == image3.getValue()){
+               
                 if (image.getValue()==1){
                     Toast.makeText(this, "JACKPOT!!!! You won "+ (Integer.parseInt(input.getText().toString())*777)+ " Coins", Toast.LENGTH_SHORT).show();
                     Common.SCORE += Integer.parseInt(input.getText().toString())*777;
@@ -228,9 +252,19 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                     Common.SCORE += winAmount;
                 }
 
+
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
 
+                animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bounce);
+                image.startAnimation(animation);
+
                 txt_score.setText(String.valueOf(Common.SCORE));
+                animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoom_in);
+                image.startAnimation(animation);
+                image2.startAnimation(animation);
+                image3.startAnimation(animation);
+                small.start();
+
             }else if (image.getValue() == image2.getValue() || image2.getValue() == image3.getValue() || image.getValue() == image3.getValue()){
                 int winAmount = 0;
                 int imageValue = 0;
@@ -262,12 +296,34 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
                 Common.SCORE += winAmount;
                 slotmachineDB.updateCoins(Common.SCORE, Common.playingUser);
                 txt_score.setText(String.valueOf(Common.SCORE));
+                animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.rotate);
+                image.startAnimation(animation);
+                image2.startAnimation(animation);
+                image3.startAnimation(animation);
+                big.start();
             }else{
                 Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show();
             }
         }
+    }
 
-
+    @Override
+    public void onBackPressed(){
+/*
+        if (backPressedTime + 2000 > System.currentTimeMillis()){
+            backToast.cancel();
+            super.onBackPressed();
+            return;
+        } else {
+            backToast= Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }*/
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        mServ.onDestroy();
+        finish();
+        super.onBackPressed();
     }
 
     @Override
@@ -277,6 +333,18 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         if (mServ != null) {
             mServ.resumeMusic();
         }
+
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        mServ.startMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void doBindService() {
