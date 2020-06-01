@@ -12,33 +12,34 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/okButton"
+        android:id="@+id/depositBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="110dp"
-        android:layout_marginTop="345dp"
-        android:layout_marginRight="82dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginTop="327dp"
+        android:layout_marginRight="81dp"
         android:padding="20dp"
-        android:text="OK"
+        android:text="Deposit"
         android:textAllCaps="false" />
 
-    <EditText
+    <TextView
         android:id="@+id/input"
-        android:layout_width="wrap_content"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginBottom="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="318dp"
         android:background="@drawable/bg_text2"
-        android:hint="Desired Amount"
-        android:inputType="number"
+        android:gravity="center_horizontal"
         android:padding="20dp"
-        android:text="100" />
+        android:text="@string/_50"
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
     <Button
         android:padding="20dp"
@@ -145,6 +146,30 @@
         android:src="@drawable/up"
         android:visibility="gone"/>
 
+
+    <ImageView
+        android:id="@+id/plusBtn"
+        android:layout_width="73dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="328dp"
+        android:layout_toEndOf="@+id/input"
+        android:layout_toRightOf="@+id/input"
+        android:src="@drawable/plus" />
+
+    <ImageView
+        android:id="@+id/minusBtn"
+        android:layout_width="57dp"
+        android:layout_height="49dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-178dp"
+        android:layout_marginLeft="-178dp"
+        android:layout_marginTop="334dp"
+        android:layout_toEndOf="@+id/input"
+        android:layout_toRightOf="@+id/input"
+        android:src="@drawable/minus" />
 
 
 </RelativeLayout>
