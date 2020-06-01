@@ -14,6 +14,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -88,7 +90,7 @@ public class  MainActivity extends AppCompatActivity implements IEventEnd {
         colorButton = findViewById(R.id.colorButton);
         layout = findViewById(R.id.bg_color);
         musicBtn = findViewById(R.id.musicBtn);
-        if(mServ!=null && musicBtn.getText().toString().equals("Music off")){
+        if(mServ!=null ){
             mServ.resumeMusic();
         }
 
